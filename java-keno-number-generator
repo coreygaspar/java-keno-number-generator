@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class Main {
+    // main method of the program 
+    public static void main(String[] args) {
+        // creating a scanner object to take input from the user
+        Scanner scanner = new Scanner(System.in);
+        // creating a random object to randomize the numbers
+        Random random = new Random();
+
+        // Welcome message
+        System.out.println("Welcome to my Random Keno Number Generator!\n");
+
+        // creates a loop that will allow the user to play the game multiple times if they'd like
+        boolean generateAgain = true;
+        
+        while (generateAgain) {
+            // Ask user to enter number of spots (1 to 12)
+            System.out.print("Enter the number of spots you are playing (1 to 12): ");
+            int numSpots = scanner.nextInt();
+
+            // Verify that the user's input is between 1 and 12
+            if (numSpots < 1 || numSpots > 12) {
+                System.out.println(
+                        "\nThe number of spots you've entered is invalid. Please enter a number between 1 and 12.\n");
+                continue;
+            }
+
+            // Generate Keno numbers using a Set to avoid duplicates
+            Set<Integer> kenoNumbers = new HashSet<>();
+
+            while (kenoNumbers.size() < numSpots) {
+                int number = random.nextInt(80) + 1;
+                kenoNumbers.add(number);
+            }
+
+            // Convert Set to sorted List for display
+            List<Integer> sortedNumbers = new ArrayList<>(kenoNumbers);
+            Collections.sort(sortedNumbers);
+
+            // Displays the random numbers selected
+            System.out.println("\nYour Keno numbers for " + numSpots + " spots:\n");
+            for (int number : sortedNumbers) {
+                System.out.println(number);
+            }
+
+            // Ask if the user wants to generate again
+            // if the user enters y, the program will generate new numbers. If the user
+            // enters n, the program will end.
+            System.out.print("\nDo you want to generate again? (y/n): ");
+            String choice = scanner.next().toLowerCase();
+            // if the user choice does not equal y, the program will end
+            if (!choice.equals("y")) {
+                generateAgain = false;
+            }
+        }
+        // ends the program
+        System.out.println("\nThank you for using my Generator!");
+        scanner.close();
+    }
+}
